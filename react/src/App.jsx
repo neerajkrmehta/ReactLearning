@@ -7,7 +7,7 @@ function App() {
   
 
   return (
-    <div className="App">
+    <div className="App" onClick={() => console.log('App')} >
       <div>Videos</div>
       {video.map((video) => (
         <Video
@@ -18,15 +18,29 @@ function App() {
           channel={video.channel}
           verified={video.verified}
           id={video.id}
-        />
+         >
+          <PlayButton
+          onPlay={() => console.log("playing..", video.title)}
+          onPause={() => console.log("Pauseed..", video.title)}
+        
+          > {video.title}
+        </PlayButton>
+
+         </Video>
+          
+
+        
       ))}
 
-      <div style={{clear:'both'}}>
-        <PlayButton  message="Paly-msg" on >Play</PlayButton>
-        <PlayButton  message="pause-msg">Pause</PlayButton>
+      <div style={{ clear: "both" }}>
+        {/* <PlayButton
+          onPlay={() => console.log("play")}
+          onPause={() => console.log("Pause")}
+        >
+          Play
+        </PlayButton> */}
+        {/* <PlayButton onClick={() => alert("Alert")}>Pause</PlayButton>  */}
       </div>
-
-
     </div>
   );
 }
