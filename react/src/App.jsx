@@ -1,65 +1,47 @@
 import Video from "./Comopnents/Video";
 import "./App.css";
-import videoDb from "./Data/Data";
+import videoDB from "./Data/Data";
 import PlayButton from "./Comopnents/PlayButton";
-import Counter from "./Comopnents/Counter";
+// import Counter from "./Comopnents/Counter";
 import { useState } from "react";
-function App(e) {
-  
+import AddVideo from "./Comopnents/AddVideo";
+import VideoList from "./Comopnents/VideoList";
 
-  const [video, setvideo] = useState(videoDb)
-  
+function App() {
+  console.log("render App");
+
+  const [videos, setVideos] = useState(videoDB);
+  const [editableVideo, setEditableVideo] = useState(null);
+
+  function addVideos(video) {
+    setVideos([...videos, { ...video, id: videos.length + 1 }]);
+  }
+  function deleteVideo(id) {
+    setVideos(videos.filter((video) => video.id !== id));
+  }
+  function editVideo(id) {
+    setEditableVideo(videos.find((video) => video.id === id));
+  }
+
+  function updateVideo(video) {
+    const index = videos.findIndex((v) => v.id === video.id);
+    const newVideos = [...videos];
+    newVideos.splice(index, 1, video);
+    setVideos(newVideos);
+  }
 
   return (
-    <div className="App" onClick={() => console.log('App')} >
-      <div>
-        <button onClick={()=>{
-          setvideo([...video,{
-              id: video.length+1,
-              title: "Demo tutorial",
-              views: "1M",
-              time: "5 month ago",
-              channel: "Coder Dost",
-              verified: false,
-            }]);
-        } }>Add Video</button>
-
-      </div>
-      {video.map((video) => (
-        <Video
-          key={video.id}
-          title={video.time}
-          views={video.views}
-          time={video.time}
-          channel={video.channel}
-          verified={video.verified}
-          id={video.id}
-         >
-          <PlayButton
-          onPlay={() => console.log("playing..", video.title)}
-          onPause={() => console.log("Pauseed..", video.title)}
-        
-          > {video.title}
-        </PlayButton>
-
-         </Video>
-          
-
-        
-      ))}
-
-      <div style={{ clear: "both" }}>
-        {/* <PlayButton
-          onPlay={() => console.log("play")}
-          onPause={() => console.log("Pause")}
-        >
-          Play
-        </PlayButton> */}
-        {/* <PlayButton onClick={() => alert("Alert")}>Pause</PlayButton>  */}
-      </div>
-
-      <Counter></Counter>
-
+    <div className="App" onClick={() => console.log("App")}>
+      <AddVideo
+        addVideos={addVideos}
+        updateVideo={updateVideo}
+        editableVideo={editableVideo}
+      ></AddVideo>
+      <VideoList
+        deleteVideo={deleteVideo}
+        editVideo={editVideo}
+        videos={videos}
+      ></VideoList>
     </div>
   );
 }
