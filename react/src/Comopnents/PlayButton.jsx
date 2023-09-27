@@ -5,7 +5,7 @@ import React from 'react'
 import './Playbutton.css';
 
 
-function PlayButton({message, children, onPlay, onPause}) {
+function PlayButton({message, children, onPlay, onPause,id}) {
 
   
   const [playing, setPlaying] = useState(false);
